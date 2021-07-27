@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
+import 'login_screen.dart';
+
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
 
@@ -10,6 +12,7 @@ class WelcomeScreen extends StatelessWidget {
       child: Scaffold(
         body: Center(
           child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Spacer(),
                   Container(
@@ -18,8 +21,9 @@ class WelcomeScreen extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    height: 60.h,
-                    child: Image.asset('assets/bunny.png')
+                      color: Colors.black,
+                      height: 60.h,
+                      child: Image.asset('assets/bunny.png', fit: BoxFit.fitHeight,)
                   ),
                   Spacer(),
                   ClipRRect(
@@ -27,8 +31,16 @@ class WelcomeScreen extends StatelessWidget {
                     child: Container(
                       width: 80.w,
                       height: 8.h,
-                      color: Colors.teal[50],
-                      child: Center(
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>((Colors.teal[50])!)
+                        ),
+                        onPressed: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => LoginScreen()),
+                          );
+                        },
                         child: Text(
                           '로그인',style: TextStyle(color: Color(0xFF006175),fontSize: 13.sp),
                         ),
