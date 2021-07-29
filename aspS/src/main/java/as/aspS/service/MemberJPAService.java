@@ -32,8 +32,10 @@ public class MemberJPAService {
         return memberJPARepository.findAll();
     }
 
-    public Optional<Member> findOne(Long memberId){
+    public Optional<Member> findById(Long memberId){
         return memberJPARepository.findById(memberId);
     }
-
+    public Optional<Member> findByEmailAndPassword(String email, String password){
+        return memberJPARepository.findByEmailAndPassword(email,password);
+    }
 }
