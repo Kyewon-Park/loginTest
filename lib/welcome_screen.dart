@@ -1,3 +1,4 @@
+import 'package:androidstudioprojects/buttons/wideNavigateButton.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -26,27 +27,7 @@ class WelcomeScreen extends StatelessWidget {
                       child: Image.asset('assets/bunny.png', fit: BoxFit.fitHeight,)
                   ),
                   Spacer(),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    child: Container(
-                      width: 80.w,
-                      height: 8.h,
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>((Colors.teal[50])!)
-                        ),
-                        onPressed: (){
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => LoginScreen()),
-                          );
-                        },
-                        child: Text(
-                          '로그인',style: TextStyle(color: Color(0xFF006175),fontSize: 13.sp),
-                        ),
-                      ),
-                    ),
-                  ),
+                  WideNavigatgeButton(LoginScreen(), "로그인"),
                   Spacer(),
                 ],
             ),
