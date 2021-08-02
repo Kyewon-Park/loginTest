@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:androidstudioprojects/buttons/widePostButton.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:sizer/sizer.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -17,31 +18,44 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false, //키보드가 화면 줄이는 현상 방지
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Spacer(),
+            Spacer(flex: 2,),
+            Container(
+                color: Colors.black,
+                height: 20.h,
+                child: Image.asset('assets/bunny.png', fit: BoxFit.fitHeight,)
+            ),
+            Spacer(flex: 2,),
             Padding(
-              padding: EdgeInsets.all(10),
-              child: TextField(
-                controller: idController,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Email',
-                    hintText: 'Enter valid mail id as abc@gmail.com'
+              padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+              child: Container(
+                width: 80.w,
+                child: TextField(
+                  controller: idController,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Email',
+                      hintText: 'Enter valid mail id as abc@gmail.com'
+                  ),
                 ),
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(10),
-              child: TextField(
-                controller: pwController,
-                obscureText: true,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Password',
-                    hintText: 'Enter your secure password'
+              padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+              child: Container(
+                width: 80.w,
+                child: TextField(
+                  controller: pwController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Password',
+                      hintText: 'Enter your secure password'
+                  ),
                 ),
               ),
             ),
@@ -54,11 +68,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 style: TextStyle(color: Colors.blue, fontSize: 15),
               ),
             ),
-            Spacer(),
+            Spacer(flex: 2,),
             WidePostButton(buttonName: "Login", callback: login,),
             Spacer(),
             WidePostButton(buttonName: "Register", callback: register,),
-            Spacer(),
+            Spacer(flex: 3,),
           ],
         ),
       ),

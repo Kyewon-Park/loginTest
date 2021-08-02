@@ -1,4 +1,4 @@
-import 'package:androidstudioprojects/welcome_screen.dart';
+import 'package:androidstudioprojects/screen/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
