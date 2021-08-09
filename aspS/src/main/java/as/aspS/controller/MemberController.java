@@ -19,9 +19,9 @@ public class MemberController {
 
     @PostConstruct
     public void init() {
-        Member member1 = new Member("qw@qw","qw");
-        Member member2 = new Member("qwe@qwe","qwe");
-        Member member3 = new Member("qwer@qwer","qwer");
+        Member member1 = new Member("qw@qw","qw","asdf");
+        Member member2 = new Member("qwe@qwe","qwe","sadf");
+        Member member3 = new Member("qwer@qwer","qwer","dsfa");
         memberJPAService.join(member1);
         memberJPAService.join(member2);
         memberJPAService.join(member3);

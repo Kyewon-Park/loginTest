@@ -20,7 +20,7 @@ class MemberSerivceTest {
     @Test
     public void 회원가입() throws Exception {
         //given
-        Member member = new Member("awesfs@mavaer.com", "asdpapsdf");
+        Member member = new Member("awesfs@mavaer.com", "asdpapsdf","weqr");
         //when
         Long savedId = memberSerivce.join(member);
 
