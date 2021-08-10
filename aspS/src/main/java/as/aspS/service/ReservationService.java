@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class ReservationService {
         return reservationRepository.find(id);
     }
 
-    public List<Reservation> findReservations(LocalDateTime ldt){
-        return reservationRepository.findAll(ldt);
+    public List<Reservation> findReservations(LocalDate ld){
+        return reservationRepository.findAll(ld);
     }
 }

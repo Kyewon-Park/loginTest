@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -19,10 +20,9 @@ public class ReservationRepository {
     public Reservation find(Long id){
         return em.find(Reservation.class, id);
     }
-    public List<Reservation> findAll(LocalDateTime ldt){
-        ldt.truncatedTo(ChronoUnit.HOURS);
-        return em.createQuery("select r from Reservation r where r.ldt = :ldt", Reservation.class)
-                .setParameter("ldt", ldt)
+    public List<Reservation> findAll(LocalDate ld){
+        return em.createQuery("select r from Reservation r where r.ld = :ld", Reservation.class)
+                .setParameter("ld", ld)
                 .getResultList();
     }
 }
