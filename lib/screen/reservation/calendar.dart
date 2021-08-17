@@ -1,4 +1,6 @@
+import 'package:androidstudioprojects/buttons/widePostButton.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class Calendar extends StatefulWidget {
@@ -13,19 +15,37 @@ class _CalendarState extends State<Calendar> {
   DateTime _selectedDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
 
-  int selected = 5;
-  int itemCount = 12;
-  FixedExtentScrollController _scrollController =
-      FixedExtentScrollController(initialItem: 5);
+  int selected = 6; //시간 타일 중심 위치
+  int itemCount = 12; //시간 타일 개수
+  int? hour;//시간
 
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
+
+    var _snackBar;//_focusedDay 포함한 스낵바
+
+    void showSnackBar(){
+      String formattedDate = DateFormat('yyyy-MM-dd').format(_focusedDay);
+      _snackBar = SnackBar(
+        content: Text('Date : ' + formattedDate + '/ Hour : ' + hour.toString()),
+        duration: Duration(milliseconds: 500),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(_snackBar);
+    }
+    //시간 날짜 둘 중 하나 null일 시 출력
+    void showEmptySnackBar(){
+      _snackBar = SnackBar(
+        content: Text('Choose Both Date and Time'),
+        duration: Duration(milliseconds: 500),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(_snackBar);
+    }
+
     return Scaffold(
         body: Column(
       children: [
@@ -68,12 +88,17 @@ class _CalendarState extends State<Calendar> {
             setState(() {
               _selectedDay = selectedDay;
               _focusedDay = focusedDay; // update `_focusedDay` here as well
+
             });
+
+            // ScaffoldMessenger.of(context).showSnackBar(_snackBar);
           },
           onPageChanged: (focusedDay) {
             _focusedDay = focusedDay;
           },
         ),
+
+        //2 widget
         Flexible(
           child: RotatedBox(
             quarterTurns: 3,
@@ -83,11 +108,13 @@ class _CalendarState extends State<Calendar> {
               onSelectedItemChanged: (x) {
                 setState(() {
                   selected = x;
+                  hour=x+10;
                 });
               },
               physics: FixedExtentScrollPhysics(),
               children: List<Widget>.generate(
-                  13, (index) => AnimatedContainer(
+                  13, (index) {
+                    return AnimatedContainer(
                         duration: Duration(milliseconds: 300),
                         width: index == selected ? 60 : 50,
                         height: index == selected ? 60 : 50,
@@ -102,11 +129,17 @@ class _CalendarState extends State<Calendar> {
                             '${index + 10} 시',
                           )),
                         ),
-                      )),
+                      );
+                  }),
             ),
           ),
         ),
+
+
+        //3 widget
+        WidePostButton(buttonName: "선택", callback: showSnackBar)
       ],
     ));
   }
 }
+
