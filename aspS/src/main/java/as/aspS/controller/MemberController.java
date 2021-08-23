@@ -29,10 +29,14 @@ public class MemberController {
 
     @PostMapping("/register")
     public Member Register(@RequestBody Member member) {
-        return memberJPAService.join(member);
+        try {
+            return memberJPAService.join(member);
+        }catch (Exception e){
+            throw e;
+        }
     }
 
-    @PostMapping("/login")
+    @PostMapping("/login") //null또는 Member반환
     public Optional<Member> Login(@RequestBody Member member){
         return memberJPAService.findByEmailAndPassword(
                 member.getEmail(), member.getPassword()
