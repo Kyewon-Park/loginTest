@@ -2,10 +2,16 @@ class Member{
   final int memberId;
   final String email;
   final String name;
+  final String localDate;
 
-  Member(this.memberId, this.email, this.name);
+  Member({required this.memberId, required this.email, required this.name, required this.localDate});
 
   factory Member.fromJson(Map<String,dynamic> json){
-    return Member(json['memberId'], json['email'], json['name']);
+    return Member(
+        memberId: json['id'] as int,
+        email: json['email'] as String,
+        name: json['name'] as String,
+        localDate: json['localDate'] as String
+    );
   }
 }

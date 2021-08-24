@@ -22,7 +22,7 @@ class WelcomeScreen extends StatelessWidget {
                     ),
                   ),
                   Container(
-                      color: Colors.black,
+                      color: Colors.white,
                       height: 60.h,
                       child: Image.asset('assets/bunny.png', fit: BoxFit.fitHeight,)
                   ),
