@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:androidstudioprojects/buttons/widePostButton.dart';
+import 'package:androidstudioprojects/model/Member.dart';
 import 'package:androidstudioprojects/screen/reservation/show_month.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -26,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
           children: [
             Spacer(flex: 2,),
             Container(
-                color: Colors.black,
+                color: Colors.white,
                 height: 20.h,
                 child: Image.asset('assets/bunny.png', fit: BoxFit.fitHeight,)
             ),
@@ -70,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             Spacer(flex: 2,),
-            WidePostButton(buttonName: "Login", callback: login,),
+            WidePostButton(buttonName: "Login", callback: login),
             Spacer(),
             WidePostButton(buttonName: "Register", callback: register,),
             Spacer(flex: 3,),
@@ -80,13 +81,9 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Future<http.Response> login() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => ShowMonth()),
-    );
-    return http.post(
-      Uri.parse('http://192.168.0.8:8080/login'),
+  Future<Member?> login() async{
+    await http.post(
+      Uri.parse('http://192.168.137.1:8080/login'), //192.168.0.8:8080
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -94,8 +91,22 @@ class _LoginScreenState extends State<LoginScreen> {
         'email': idController.text,
         'password': pwController.text
       }),
-    );
-  }
+    ).then((value){
+        print(value.body);
+        print(value.statusCode);
+        if (value.statusCode == 200) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ShowMonth()),
+          );
+          Member member = Member.fromJson(jsonDecode(value.body));
+          print("${member.memberId}, ${member.email}, ${member.name}");
+          return member;
+        } else {
+          throw Exception('Failed to create member.');
+        }});
+        return null;
+    }
 
   Future<http.Response> register() {
     return http.post(
@@ -111,4 +122,3 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
 }
-
