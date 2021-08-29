@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:androidstudioprojects/buttons/widePostButton.dart';
+import 'package:androidstudioprojects/model/Member.dart';
 import 'package:androidstudioprojects/screen/individual/my_reservations.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -32,22 +33,30 @@ class _CalendarState extends State<Calendar> {
 
     var _snackBar;//_focusedDay 포함한 스낵바
 
-    Future<http.Response> postReservation() {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => MyReservations()),
-      );
+    Future<Member> postReservation() async {
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => MyReservations()),
+      // );
       String formattedDate = DateFormat('yyyy-MM-dd').format(_focusedDay);
-      return http.post(
+      final response = await http.post(
         Uri.parse('http://192.168.0.8:8080/reservation'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(<String, String>{
           'localDate': formattedDate,
-          'hour': hour.toString()
+          'hour': hour.toString(),
+          'memberId': '1'
+          //getMemberId().toString()
         }),
       );
+      if(response.statusCode==201){
+        return Member.fromJson(jsonDecode(response.body));
+      }else{
+        throw Exception('Failed to create album.');
+      }
+
     }
 
     void showSnackBar(){
@@ -160,7 +169,7 @@ class _CalendarState extends State<Calendar> {
         //3 widget
         WidePostButton(buttonName: "선택", callback: (){
           showSnackBar();
-          reservationProcess();
+          postReservation();
         })
       ],
     ));
