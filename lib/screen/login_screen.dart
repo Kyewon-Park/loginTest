@@ -2,10 +2,11 @@ import 'dart:convert';
 import 'package:androidstudioprojects/buttons/widePostButton.dart';
 import 'package:androidstudioprojects/model/Member.dart';
 import 'package:androidstudioprojects/screen/register_screen.dart';
-import 'package:androidstudioprojects/screen/reservation/show_month.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'middle_page.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -17,6 +18,31 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final idController = TextEditingController();
   final pwController = TextEditingController();
+  Future<void> _showAlertDialog(context, Text text) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                text
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   Future<Member?> login() async{
     await http.post(
@@ -31,16 +57,20 @@ class _LoginScreenState extends State<LoginScreen> {
     ).then((value){
       print(value.body);
       print(value.statusCode);
-      if (value.statusCode == 200) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ShowMonth()),
-        );
+      if (value.body.toString() == "null") {
+        _showAlertDialog(context, Text('아이디 또는 비밀번호가 일치하지 않습니다.', style: TextStyle(fontSize: 10.sp),));
+        throw Exception('Failed to login');
+      } else {
         Member member = Member.fromJson(jsonDecode(value.body));
         print("${member.memberId}, ${member.email}, ${member.name}");
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Provider<Member>.value(
+            value: member,
+            child: MiddlePage()
+          )),
+        );
         return member;
-      } else {
-        throw Exception('Failed to create member.');
       }});
     return null;
   }
