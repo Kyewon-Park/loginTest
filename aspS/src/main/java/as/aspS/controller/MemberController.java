@@ -29,6 +29,8 @@ public class MemberController {
 
     @PostMapping("/register")
     public Member Register(@RequestBody Member member) {
+        System.out.println("member.getEmail() = " + member.getEmail());
+        System.out.println("member.getName() = " + member.getName());
         try {
             return memberJPAService.join(member);
         }catch (Exception e){
@@ -41,6 +43,15 @@ public class MemberController {
         return memberJPAService.findByEmailAndPassword(
                 member.getEmail(), member.getPassword()
         );
+    }
+
+    @PostMapping("/register/validateDuplicateMember") //null또는 Member반환
+    public boolean ValidateDuplicateMember(@RequestBody Member member){
+        try {
+            return memberJPAService.validateDuplicateMember(member);
+        }catch (Exception e){
+            throw e;
+        }
     }
 
     @GetMapping("/members")

@@ -21,10 +21,13 @@ public class MemberJPAService {
         return memberJPARepository.save(member);
     }
 
-    private void validateDuplicateMember(Member member) {
+    public boolean validateDuplicateMember(Member member) {
         List<Member> findMembers = memberJPARepository.findByEmail(member.getEmail());
         if(!findMembers.isEmpty()){
             throw new IllegalStateException("이미 존재하는 회원입니다.");
+        }
+        else{
+            return true;
         }
     }
 
@@ -38,4 +41,5 @@ public class MemberJPAService {
     public Optional<Member> findByEmailAndPassword(String email, String password){
         return memberJPARepository.findByEmailAndPassword(email,password);
     }
+
 }
