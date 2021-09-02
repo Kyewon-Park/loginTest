@@ -6,11 +6,7 @@ import 'package:provider/provider.dart';
 
 void main() {
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => MemberProvider()),
-      ],
-      child: MyApp(),)
+    MyApp()
   );
 }
 
@@ -20,11 +16,8 @@ class MyApp extends StatelessWidget {
     return Sizer(builder: (context,orientation,deviceType){
       return MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
-          theme: ThemeData(
-            scaffoldBackgroundColor: Colors.white,
-            primarySwatch: Colors.blue,
-          ),
+          title: 'Academy Reservation',
+          builder: (context, child) => new SafeArea(child: new Material(color: Colors.white, child: child)),
           home: WelcomeScreen(),
       );
     });

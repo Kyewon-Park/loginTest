@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:androidstudioprojects/buttons/widePostButton.dart';
 import 'package:androidstudioprojects/model/Member.dart';
-import 'package:androidstudioprojects/screen/individual/my_reservations.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -30,7 +29,6 @@ class _CalendarState extends State<Calendar> {
   }
   @override
   Widget build(BuildContext context) {
-
     var _snackBar;//_focusedDay 포함한 스낵바
 
     Future<Member> postReservation() async {
@@ -71,13 +69,13 @@ class _CalendarState extends State<Calendar> {
     void showEmptySnackBar(){
       _snackBar = SnackBar(
         content: Text('Choose Both Date and Time'),
-        duration: Duration(milliseconds: 500),
+        duration: Duration(milliseconds: 1000),
       );
       ScaffoldMessenger.of(context).showSnackBar(_snackBar);
     }
 
     return Scaffold(
-        body: Column(
+      body: Column(
       children: [
         TableCalendar(
           headerStyle: HeaderStyle(
@@ -127,7 +125,7 @@ class _CalendarState extends State<Calendar> {
             _focusedDay = focusedDay;
           },
         ),
-
+        Spacer(),
         //2 widget
         Flexible(
           child: RotatedBox(
@@ -149,7 +147,7 @@ class _CalendarState extends State<Calendar> {
                         width: index == selected ? 60 : 50,
                         height: index == selected ? 60 : 50,
                         decoration: BoxDecoration(
-                            color: index == selected ? Colors.blue : Colors.blue[300],
+                            color: index == selected ? Colors.teal[300] : Colors.teal[100],
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: RotatedBox(
@@ -164,14 +162,14 @@ class _CalendarState extends State<Calendar> {
             ),
           ),
         ),
-
-
+        Spacer(),
         //3 widget
         WidePostButton(buttonName: "선택", callback: (){
           showSnackBar();
           postReservation();
-        })
-      ],
+        }),
+        Spacer(),
+    ],
     ));
   }
 }

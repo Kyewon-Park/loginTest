@@ -16,14 +16,17 @@ class WelcomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Spacer(),
-                  Container(
-                    child:Text(
-                      'Lorem Ipsum',style: TextStyle(color: Colors.black, fontWeight:FontWeight.bold,fontSize: 20.sp),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+                    child: Container(
+                      child:Text(
+                        'Lorem Academy',style: TextStyle(color: Colors.black, fontWeight:FontWeight.bold,fontSize: 20.sp),
+                      ),
                     ),
                   ),
                   Container(
                       color: Colors.white,
-                      height: 60.h,
+                      width: 80.w,
                       child: Image.asset('assets/bunny.png', fit: BoxFit.fitHeight,)
                   ),
                   Spacer(),
